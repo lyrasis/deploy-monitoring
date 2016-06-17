@@ -1,0 +1,21 @@
+---
+
+- src: https://github.com/geerlingguy/ansible-role-munin
+  name: munin
+  path: roles
+  version: master
+
+- src: https://github.com/geerlingguy/ansible-role-munin-node
+  name: munin-node
+  path: roles
+  version: master
+
+- src: https://github.com/lyrasis/ansible-server-role.git
+  name: server
+  path: roles
+  version: master
+
+- src: https://github.com/lyrasis/ansible-swatch-role.git
+  name: swatch
+  path: roles
+  version: master

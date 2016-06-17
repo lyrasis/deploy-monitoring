@@ -1,0 +1,27 @@
+---
+
+- name: check ansible version
+  hosts: localhost
+  become: no
+  connection: local
+
+  vars:
+    testing: false
+
+  tasks:
+    - name: ensure ansible version matches defined value
+      assert:
+        that: ansible_version.full == deploy_ansible_version
+      when: not testing
+      tags:
+        - always
+
+- name: visit master (facts)
+  hosts: master
+  user: "{{ deploy_user }}"
+  become: yes
+
+- name: visit node (facts)
+  hosts: node
+  user: "{{ deploy_user }}"
+  become: yes

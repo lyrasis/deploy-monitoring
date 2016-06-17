@@ -1,0 +1,44 @@
+---
+
+- include: facts.yml
+
+- name: manage node servers
+  hosts: node
+  user: "{{ deploy_user }}"
+  become: yes
+
+  roles:
+    - server
+    - munin-node
+    # - swatch
+
+  vars:
+    munin_node_allowed_ips: []
+    # set to true to debug the munin_node_allowed_ips (print to stdout) 
+    munin_node_allowed_ips_check: false
+
+  pre_tasks:
+    - name: gather munin node allowed ip addresses (masters)
+      set_fact:
+        munin_node_allowed_ips: >
+          {{ munin_node_allowed_ips + [
+            '^' + (hostvars[item]['ansible_' + private_network_interface]['ipv4']['address'] | regex_escape()) + '$'
+          ] }}
+      with_items: "{{ groups.master }}"
+
+    - debug:
+        var: munin_node_allowed_ips
+      when: munin_node_allowed_ips_check
+
+    - fail:
+        msg: "Aborting to check munin node allowed ip addresses."
+      when: munin_node_allowed_ips_check
+
+    - name: allow master server/s access to nodes through firewall
+      ufw:
+        rule: allow
+        direction: in
+        port: "4949"
+        proto: tcp
+        src: "{{ hostvars[item]['ansible_' + private_network_interface]['ipv4']['address'] }}"
+      with_items: "{{ groups.master }}"

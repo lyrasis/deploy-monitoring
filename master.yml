@@ -1,0 +1,80 @@
+---
+
+- include: facts.yml
+
+- name: manage master servers
+  hosts: master
+  user: "{{ deploy_user }}"
+  become: yes
+
+  roles:
+    - server
+    - munin
+    # - swatch
+
+  handlers:
+    - name: restart apache
+      service:
+        name: apache2
+        state: restarted
+
+  vars:
+    munin_hosts: []
+    # set to true to debug the munin_hosts (print to stdout) 
+    munin_hosts_check: false
+
+  pre_tasks:
+    - name: gather munin hosts (nodes)
+      set_fact:
+        munin_hosts: >
+          {{ munin_hosts + [ {
+            'name': [ hostvars[item]['munin_group'], hostvars[item]['inventory_hostname'] ] | join(';'),
+            'address': hostvars[item]['ansible_' + private_network_interface]['ipv4']['address'],
+            'extra': ['use_node_name yes']
+          } ] }}
+      with_items: "{{ groups.node }}"
+
+    - debug:
+        var: munin_hosts
+      when: munin_hosts_check
+
+    - fail:
+        msg: "Aborting to check munin hosts."
+      when: munin_hosts_check
+
+    - name: install munin webserver pre-reqs (role this out ?=)
+      apt:
+        pkg: "{{ item }}"
+      with_items:
+        - apache2
+        - apache2-utils
+        - libcgi-fast-perl
+        - libapache2-mod-fcgid
+
+    - name: allow web server access through firewall
+      ufw:
+        rule: allow
+        direction: in
+        port: "{{ item }}"
+        proto: tcp
+        src: "any"
+      with_items:
+        - "80"
+        - "443"
+
+  post_tasks:
+    - name: copy the munin apache config file
+      copy:
+        src: files/munin-apache.conf
+        dest: /etc/munin/apache.conf
+        backup: yes
+      notify:
+        - reload apache
+
+    - name: create the munin apache symlink
+      file:
+        src: /etc/munin/apache.conf
+        dest: /etc/apache2/sites-enabled/munin.conf
+        state: link
+      notify:
+        - reload apache

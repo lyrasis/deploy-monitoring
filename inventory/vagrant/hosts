@@ -1,0 +1,13 @@
+[all:vars]
+deploy_user=vagrant
+inventory=vagrant
+private_network_interface=eth1
+ansible_ssh_port=22
+ansible_port="{{ ansible_ssh_port }}"
+server_ssh_port="{{ ansible_ssh_port }}"
+
+[master]
+master1 ansible_ssh_host=10.11.12.105
+
+[node]
+node1 munin_group=xyz ansible_ssh_host=10.11.12.105

@@ -1,0 +1,13 @@
+.vagrant/
+*.csv
+*.diff
+*.retry
+*.swp
+*.txt
+backups/*
+!backups/README.md
+inventory/*
+!inventory/vagrant/
+roles/*
+reports/*
+!reports/README.md

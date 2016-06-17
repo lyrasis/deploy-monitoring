@@ -1,0 +1,13 @@
+---
+
+# MUNIN
+munin_htmldir: /var/cache/munin/www
+
+munin_node_plugins:
+  - name: uptime
+
+# configure per inventory
+# munin_alerts: []
+
+# SERVER
+server_monit_load_memory: 90%
