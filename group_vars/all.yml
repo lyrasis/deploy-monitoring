@@ -3,13 +3,16 @@
 # MUNIN
 munin_htmldir: /var/cache/munin/www
 
-munin_node_plugins:
-  - name: uptime
+munin_packages:
+  - python-passlib
+  - munin
+  - munin-plugins-extra
 
-# configure per inventory
+# settings to configure per inventory
 # munin_admin_user: munin
 # munin_admin_password: munin
 # munin_alerts: []
+# munin_node_plugins: []
 
 # SERVER
 server_monit_load_memory: 90%

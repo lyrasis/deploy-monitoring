@@ -1,0 +1,4 @@
+---
+
+munin_node_plugins:
+  - name: uptime
