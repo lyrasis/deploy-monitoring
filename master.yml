@@ -63,13 +63,22 @@
         - "443"
 
   post_tasks:
+    - name: enable apache modules
+      apache2_module:
+        state: present
+        name: "{{ item }}"
+      with_items:
+        - fcgid
+      notify:
+        - restart apache
+
     - name: copy the munin apache config file
       copy:
         src: files/munin-apache.conf
         dest: /etc/munin/apache.conf
         backup: yes
       notify:
-        - reload apache
+        - restart apache
 
     - name: create the munin apache symlink
       file:
@@ -77,4 +86,4 @@
         dest: /etc/apache2/sites-enabled/munin.conf
         state: link
       notify:
-        - reload apache
+        - restart apache

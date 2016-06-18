@@ -5,6 +5,8 @@ private_network_interface=eth1
 ansible_ssh_port=22
 ansible_port="{{ ansible_ssh_port }}"
 server_ssh_port="{{ ansible_ssh_port }}"
+munin_admin_user=vagrant
+munin_admin_password=vagrant
 
 [master]
 master1 ansible_ssh_host=10.11.12.105

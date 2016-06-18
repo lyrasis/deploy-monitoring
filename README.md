@@ -15,7 +15,7 @@ ansible-galaxy install -r requirements.yml --force --roles-path=roles/
 vagrant up
 ```
 
-The Munin web dashboard is available at `http://10.11.12.105/munin`.
+The Munin web dashboard is available at `http://10.11.12.105/munin` (user: vagrant, password: vagrant).
 
 **Dynamic inventory**
 

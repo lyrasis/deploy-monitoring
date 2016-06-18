@@ -7,6 +7,8 @@ munin_node_plugins:
   - name: uptime
 
 # configure per inventory
+# munin_admin_user: munin
+# munin_admin_password: munin
 # munin_alerts: []
 
 # SERVER
