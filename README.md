@@ -19,7 +19,7 @@ The Munin web dashboard is available at `http://10.11.12.105/munin` (user: vagra
 
 **Dynamic inventory**
 
-TODO: describe how to set master and add nodes dynamically. Nodes are required to have a `munin_group` variable to organize the nodes within Munin.
+TODO: describe how to set master and add nodes dynamically.
 
 License
 ---

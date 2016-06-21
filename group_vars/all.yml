@@ -1,5 +1,7 @@
 ---
 
+deploy_ansible_version: 1.9.4
+
 # MUNIN
 munin_htmldir: /var/cache/munin/www
 

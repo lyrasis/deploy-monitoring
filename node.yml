@@ -8,24 +8,15 @@
   become: yes
 
   roles:
-    - server
+    - { role: server, when: testing|default(false) }
     - munin-node
     # - swatch
 
   vars:
-    munin_node_allowed_ips: []
     # set to true to debug the munin_node_allowed_ips (print to stdout) 
     munin_node_allowed_ips_check: false
 
   pre_tasks:
-    - name: gather munin node allowed ip addresses (masters)
-      set_fact:
-        munin_node_allowed_ips: >
-          {{ munin_node_allowed_ips + [
-            '^' + (hostvars[item]['ansible_' + private_network_interface]['ipv4']['address'] | regex_escape()) + '$'
-          ] }}
-      with_items: "{{ groups.master }}"
-
     - debug:
         var: munin_node_allowed_ips
       when: munin_node_allowed_ips_check

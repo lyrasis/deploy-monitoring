@@ -8,7 +8,7 @@
   become: yes
 
   roles:
-    - server
+    - { role: server, when: testing|default(false) }
     - munin
     # - swatch
 
@@ -19,21 +19,10 @@
         state: restarted
 
   vars:
-    munin_hosts: []
-    # set to true to debug the munin_hosts (print to stdout) 
+    # set to true to debug the nodes (print to stdout)
     munin_hosts_check: false
 
   pre_tasks:
-    - name: gather munin hosts (nodes)
-      set_fact:
-        munin_hosts: >
-          {{ munin_hosts + [ {
-            'name': [ hostvars[item]['munin_group'], hostvars[item]['inventory_hostname'] ] | join(';'),
-            'address': hostvars[item]['ansible_' + private_network_interface]['ipv4']['address'],
-            'extra': ['use_node_name yes']
-          } ] }}
-      with_items: "{{ groups.node }}"
-
     - debug:
         var: munin_hosts
       when: munin_hosts_check

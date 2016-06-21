@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    configparser (0.1.4)
+    softlayer_api (3.2.1)
+      configparser (~> 0.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  softlayer_api
+
+BUNDLED WITH
+   1.10.6

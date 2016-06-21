@@ -12,4 +12,4 @@ munin_admin_password=vagrant
 master1 ansible_ssh_host=10.11.12.105
 
 [node]
-node1 munin_group=xyz ansible_ssh_host=10.11.12.105
+node1 ansible_ssh_host=10.11.12.105

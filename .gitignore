@@ -1,6 +1,7 @@
 .vagrant/
 *.csv
 *.diff
+*.rb
 *.retry
 *.swp
 *.txt
