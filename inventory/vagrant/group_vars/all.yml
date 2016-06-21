@@ -9,7 +9,7 @@ munin_hosts:
 
 # would really be dynamic
 munin_node_allowed_ips:
-  - "^10\.11\.12\.105$"
+  - '^10\.11\.12\.105$'
 
 munin_node_plugins:
   - name: uptime
