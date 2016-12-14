@@ -9,6 +9,12 @@
     testing: false
 
   tasks:
+    - name: ensure ansible version matches defined value
+      assert:
+        that: ansible_version.full | version_compare(deploy_ansible_version, 'ge')
+      when: not testing
+      tags:
+        - always
 
 - name: visit master (facts)
   hosts: master
