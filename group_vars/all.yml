@@ -18,3 +18,15 @@ munin_packages:
 
 # SERVER
 server_monit_load_memory: 90%
+
+munin_node_config:
+  # this keeps munin from alerting every time someone logs in
+  # it is fixed in the default config upstream, but not in our
+  # repos yet. no harm having it here. see:
+  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=788736
+  df*:
+    env.exclude_re: ^/run/user
+  # this contains the default values for this exclude, as well as fuse.svfs, which 
+  # keeps munin from alerting as SVFS always returns that its inode usage is 100%
+  df_inode: 
+    env.exclude: none unknown iso9660 squashfs udf romfs ramfs debugfs fuse.svfs
